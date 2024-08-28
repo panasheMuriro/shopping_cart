@@ -15,16 +15,13 @@ export default function ProductsPage() {
 
   return (
     <div>
-      <div>Shopping Cart products</div>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
         {products &&
           products.map((x) => (
             <ProductCard
-              pic={x.image}
-              description={x.description}
-              price={x.price}
+              item={x}
             />
           ))}
       </div>

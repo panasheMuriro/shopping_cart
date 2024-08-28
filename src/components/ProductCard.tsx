@@ -1,8 +1,25 @@
+import { useEffect, useState } from "react";
+import { useCartStore } from "../store/cartStore";
+
 export default function ProductCard(props) {
+  const items = useCartStore((state) => state.items);
+  const addItem = useCartStore((state) => state.addItem);
+  const removeItem = useCartStore((state) => state.removeItem);
+
+  const [selected, setSelected] = useState(false);
+
+  const handleCartItem = () => {
+    if (!selected) {
+      addItem(props.item);
+    } else {
+      removeItem(props.item.id);
+    }
+    setSelected(!selected);
+  };
+
   return (
     <div
       style={{
-        // height: 400,
         backgroundColor: "white",
         display: "flex",
         flexDirection: "column",
@@ -10,14 +27,30 @@ export default function ProductCard(props) {
         padding: 20,
         marginRight: 20,
         marginBottom: 10,
-        width:300
+        width: 300,
       }}
     >
-      <img src={props.pic} height={200}></img>
-      <div>{props.description.substring(1,100)}...</div>
-      <div style={{ display: "flex", justifyContent:"space-between", alignItems:"center" }}>
-        <div>Price: {props.price}</div>
-        <button style={{color:"white"}}>Add to cart</button>
+      <img src={props.item.image} height={200}></img>
+      <div>{props.item.description.substring(1, 100)}...</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div>Price: {props.item.price}</div>
+        <button
+          style={{
+            color: selected? "black": "white",
+            backgroundColor: selected? "#00000020":"black",
+            padding: 10,
+            borderRadius: 10,
+          }}
+          onClick={handleCartItem}
+        >
+          {selected ? "Remove from cart" : "Add to cart"}
+        </button>
       </div>
     </div>
   );
