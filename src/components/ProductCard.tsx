@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useCartStore } from "../store/cartStore";
 
 export default function ProductCard(props) {
@@ -6,11 +5,11 @@ export default function ProductCard(props) {
   const addItem = useCartStore((state) => state.addItem);
   const removeItem = useCartStore((state) => state.removeItem);
 
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(props.item.selected);
 
   const handleCartItem = () => {
     if (!selected) {
-      addItem(props.item);
+      addItem({...props.item, selected:true});
     } else {
       removeItem(props.item.id);
     }
